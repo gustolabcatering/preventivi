@@ -142,6 +142,7 @@ input[type=date],input[type=time]{min-width:0;-webkit-appearance:none;appearance
 @media(max-width:480px){.modi .scelta{padding:14px 12px}.modi .scelta b{font-size:1.2rem}.modi .scelta span{font-size:.8rem}}
 .linkIdea{grid-column:1/-1;display:block;text-align:center;font-size:.92rem;color:var(--muted);text-decoration:none;padding:10px 4px 8px;min-height:24px}
 .linkIdea b{color:var(--terra-d);font-weight:600;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.vh{list-style:none;margin:8px 0 2px -18px !important;font-weight:600;color:var(--terra-d)}
 </style>
 </head>
 <body>
@@ -290,7 +291,9 @@ const MENU_PRONTI=[
   {id:"sa-p",nome:"Buffet Salato Pro",sott:"Ideale per 40 persone",persone:40,prezzo:180,tipo:"fisso",nota:"",img:"",voci:["90 Tramezzini mignon","2 kg di Pizzette di sfoglia","45 Bottoncini farciti","1,5 kg Rustici mix","3 Plumcake salati","2 Torte rustiche"]}]},
  {gruppo:"Apericena",menu:[
   {id:"ap-su",nome:"Menu Apericena Summer",sott:"",prezzo:15,tipo:"persona",nota:"",img:"",voci:["Bottoncini gourmet","Crostini hummus e pomodorini confit","Involtini di tacchino con insalata russa","Pasta fredda mediterranea (pomodorini, zucchine e scamorza)","Rollè di mozzarella con bresaola e rucola","Spiedini di frutta","Tartellette dolci (crema pasticcera con frutta, cioccolato)"]},
-  {id:"ap-wi",nome:"Menu Apericena Winter",sott:"",prezzo:15,tipo:"persona",nota:"",img:"",voci:["Bottoncini gourmet","Mini quiche","Lasagna classica al pomodoro","Mini burger vegetariani","Tris di fritti (mini suppì, crocchetta e polpetta provola e melanzane)","Tartellette dolci (crema pasticcera con frutta, cioccolato)"]}]}
+  {id:"ap-wi",nome:"Menu Apericena Winter",sott:"",prezzo:15,tipo:"persona",nota:"",img:"",voci:["Bottoncini gourmet","Mini quiche","Lasagna classica al pomodoro","Mini burger vegetariani","Tris di fritti (mini suppì, crocchetta e polpetta provola e melanzane)","Tartellette dolci (crema pasticcera con frutta, cioccolato)"]}]},
+ {gruppo:"Capodanno",menu:[
+  {id:"cd",nome:"Menu di Capodanno",sott:"",prezzo:35,tipo:"persona",nota:"",img:"",voci:["§Antipasti","Bottoncini gourmet Nobile: gorgonzola, miele, pere e noci","Vol au vent misti","Crostini hummus e pomodorino confit","Polpetta provola e melanzane","§Primi","Lasagna al salmone e zucchine","§Secondi","Scaloppine funghi e formaggio","Lenticchie e cotechino","§Contorni","Patate arrosto","Crudité di verdure miste","Pane casereccio incluso"]}]}
 ];
 // ==========================================
 
@@ -341,7 +344,7 @@ MENU_PRONTI.forEach(g=>{
     m.g=g.gruppo;tutti.push(m);
     const d=document.createElement('div');d.className='card';d.tabIndex=0;d.setAttribute('role','button');d.dataset.id=m.id;
     d.innerHTML=(m.img?`<div class="foto" style="background-image:url('${m.img}')"></div>`:'')
-      +`<h3>${m.nome}</h3>${m.sott?`<div class="sott">${m.sott}</div>`:''}<ul>${m.voci.map(v=>`<li>${v}</li>`).join('')}</ul><div class="prezzo">${eur(m.prezzo)}${m.tipo==='persona'?' a persona':''}</div>`
+      +`<h3>${m.nome}</h3>${m.sott?`<div class="sott">${m.sott}</div>`:''}<ul>${m.voci.map(v=>v[0]==='§'?`<li class="vh">${v.slice(1)}</li>`:`<li>${v}</li>`).join('')}</ul><div class="prezzo">${eur(m.prezzo)}${m.tipo==='persona'?' a persona':''}</div>`
       +(m.tipo==='persona'?`<div class="pers"><span>Per quante persone?</span><div class="qty"><button type="button" class="pstep" data-d="-1" aria-label="Meno">−</button><input class="pn" type="number" min="1" inputmode="numeric" value="${nPers}"><button type="button" class="pstep" data-d="1" aria-label="Più">+</button></div></div>`:'')
       +(m.nota?`<div class="sott">${m.nota}</div>`:'');
     c.appendChild(d);
